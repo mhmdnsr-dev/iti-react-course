@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Products from "../products/Products.jsx";
+import Products from "../Products/Products";
 
 export default class Home extends Component {
   render() {

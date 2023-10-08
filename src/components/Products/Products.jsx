@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ProductCard from "../product-card/ProductCard.jsx";
-import NewProduct from "../new-product/NewProduct.jsx";
+import ProductCard from "../Product-card/ProductCard.jsx";
+import NewProduct from "../New-Product/NewProduct.jsx";
 import { products } from "../../db/products.js";
 
 class Products extends Component {
@@ -49,7 +49,7 @@ class Products extends Component {
     return (
       <>
         <NewProduct addProduct={this.addProduct}></NewProduct>
-        <div className="d-flex flex-wrap gap-2">
+        <div className=" grid grid-cols-4 justify-center gap-4 p-5">
           {this.state.products.map((p) => {
             return (
               <ProductCard
