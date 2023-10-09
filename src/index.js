@@ -1,6 +1,12 @@
 import React from "react";
 import App from "./App";
-import "./index.css";
+// CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/font-awesome.min.css";
+import "./css/magnific-popup.css";
+import "./css/responsive.css";
+import "./css/style.css";
+
 import reportWebVitals from "./reportWebVitals";
 
 import ReactDOM from "react-dom/client";
@@ -8,7 +14,7 @@ import ReactDOM from "react-dom/client";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App></App>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
