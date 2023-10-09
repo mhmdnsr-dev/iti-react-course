@@ -139,6 +139,7 @@ img {
 
 .section {
   padding: 8rem 0 2rem;
+  min-height: 90vh;
 }
 
 @media (max-width: 767px) {
