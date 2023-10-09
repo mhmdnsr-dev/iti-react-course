@@ -2,10 +2,7 @@ import React from "react";
 import App from "./App";
 // CSS
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./css/font-awesome.min.css";
-import "./css/magnific-popup.css";
-import "./css/responsive.css";
-import "./css/style.css";
+import 'bootstrap/dist/js/bootstrap.js'
 
 import reportWebVitals from "./reportWebVitals";
 
