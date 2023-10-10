@@ -1,50 +1,23 @@
 import React from "react";
-import Home from "./components/home/Home.jsx";
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Container />,
-//     children: [
-//       {
-//         index: true,
-//         element: <Home />,
-//       },
-//       {
-//         path: "about",
-//         element: <About />,
-//       },
-//       {
-//         path: "artist",
-//         element: <Artist />,
-//       },
+import Layout from "./components/Layout/Layout.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-//       {
-//         path: "gallery",
-//         element: <Gallery />,
-//       },
-//       {
-//         path: "testimonial",
-//         element: <Testimonial />,
-//       },
-//       {
-//         path: "contact",
-//         element: <Contact />,
-//       },
-//       {
-//         path: "ticket",
-//         element: <Ticket />,
-//       },
-//       {
-//         path: "*",
-//         element: <NotFound />,
-//       },
-//     ],
-//   },
-// ]);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      // {
+      //   path: "*",
+      //   element: <NotFound />,
+      // },
+    ],
+  },
+]);
 
 class App extends React.Component {
   render() {
-    return <Home />;
+    return <RouterProvider router={router} />;
   }
 }
 
