@@ -25,6 +25,7 @@ function classNames(...classes) {
 const NavBar = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(isAuthContext);
+  const whoiam = JSON.parse(localStorage.getItem('whoiam'));
   const logoutHandel = () => {
     axios
       .delete('https://todo-api-dcld.onrender.com/api/user/logout', {
@@ -35,7 +36,7 @@ const NavBar = () => {
           setIsAuth(false);
           localStorage.setItem(
             'whoiam',
-            JSON.stringify({ isAuthentcation: false }),
+            JSON.stringify({ isAuthentcated: false }),
           );
           navigate('/signin');
         }
@@ -88,28 +89,7 @@ const NavBar = () => {
                   </div>
                 </div>
               </div>
-              {!isAuth ? (
-                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-end">
-                  <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex space-x-4">
-                      {auth.map(item => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className={classNames(
-                            item.current
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium',
-                          )}
-                          aria-current={item.current ? 'page' : undefined}>
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : (
+              {isAuth || whoiam?.isAuthentcated ? (
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   <button
                     type="button"
@@ -181,6 +161,27 @@ const NavBar = () => {
                       </Menu.Items>
                     </Transition>
                   </Menu>
+                </div>
+              ) : (
+                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-end">
+                  <div className="hidden sm:ml-6 sm:block">
+                    <div className="flex space-x-4">
+                      {auth.map(item => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className={classNames(
+                            item.current
+                              ? 'bg-gray-900 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'rounded-md px-3 py-2 text-sm font-medium',
+                          )}
+                          aria-current={item.current ? 'page' : undefined}>
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

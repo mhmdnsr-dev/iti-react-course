@@ -45,7 +45,7 @@ const Login = () => {
             setIsAuth(true);
             localStorage.setItem(
               'whoiam',
-              JSON.stringify({ isAuthentcation: true }),
+              JSON.stringify({ isAuthentcated: true }),
             );
             navigate('/');
           }
@@ -54,7 +54,7 @@ const Login = () => {
           setIsAuth(false);
           localStorage.setItem(
             'whoiam',
-            JSON.stringify({ isAuthentcation: false }),
+            JSON.stringify({ isAuthentcated: false }),
           );
           formik.setErrors({
             errMsg: err.response.data.body.message,
@@ -73,7 +73,7 @@ const Login = () => {
 
   useEffect(() => {
     const whoiam = JSON.parse(localStorage.getItem('whoiam'));
-    if (whoiam?.isAuthentcation) navigate('/');
+    if (whoiam?.isAuthentcated) navigate('/');
   }, [navigate]);
 
   return (

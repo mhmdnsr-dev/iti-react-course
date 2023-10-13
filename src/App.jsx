@@ -9,6 +9,8 @@ import NotFound from './components/NotFound/NotFound.jsx';
 import Login from './components/Auth/Login/Login.jsx';
 import Register from './components/Auth/Register/Register.jsx';
 import withGuard from './components/GuardHOC/GuardHOC.jsx';
+import { Provider } from 'react-redux';
+import store from './redux/store.ts';
 
 const queryClient = new QueryClient();
 export const isAuthContext = createContext({
@@ -47,11 +49,13 @@ const App = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <isAuthContext.Provider value={{ isAuth, setIsAuth }}>
-        <RouterProvider router={router} />
-      </isAuthContext.Provider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <isAuthContext.Provider value={{ isAuth, setIsAuth }}>
+          <RouterProvider router={router} />
+        </isAuthContext.Provider>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 

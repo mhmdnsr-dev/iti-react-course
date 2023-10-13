@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../../redux/tasksSlice.ts';
 
 const AddTask = ({ reFetchTasks }) => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -20,20 +23,19 @@ const AddTask = ({ reFetchTasks }) => {
       };
 
       console.log('data', data);
-      axios
-        .post('https://todo-api-dcld.onrender.com/api/task/add', data, {
-          withCredentials: true,
-        })
-        .then(res => {
-          // console.log('ressss', res);
-          if (res.status === 201) {
-            console.log('ressssssssssssssssssssssssss', res.data);
-            reFetchTasks();
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // axios
+      //   .post('https://todo-api-dcld.onrender.com/api/task/add', data, {
+      //     withCredentials: true,
+      //   })
+      //   .then(res => {
+      //     // console.log('ressss', res);
+      // if (res.status === 201) {
+      dispatch(addTask(data));
+      // }
+      // })
+      // .catch(err => {
+      // console.log(err);
+      // });
     },
   });
   return (

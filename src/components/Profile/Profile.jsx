@@ -1,63 +1,58 @@
-import React, { useContext, useEffect } from 'react';
-import axios from 'axios';
-import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { isAuthContext } from '../../App.jsx';
+import React, { useEffect } from 'react';
 import Loading from '../utils/Loading.jsx';
-import AlertError from '../utils/AlertError.jsx';
 import Tasks from '../Tasks/Tasks.jsx';
 import AddTask from '../Tasks/AddTask/AddTask.jsx';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTasks } from '../../redux/tasksSlice.ts';
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const { setIsAuth } = useContext(isAuthContext);
+  const { tasks } = useSelector(state => state.tasks);
+  const { isLoading } = useSelector(state => state.tasks);
+  const dispatch = useDispatch();
 
-  const [tasks, setTasks] = useState([]);
+  // const { isLoading, error, data, refetch } = useQuery({
+  //   queryKey: 'userInfo',
+  //   queryFn: () =>
+  //     axios
+  //       .get('https://todo-api-dcld.onrender.com/api/user/get-data', {
+  //         withCredentials: true,
+  //       })
+  //       .then(res => {
+  //         if (res.status === 200) {
+  //           setIsAuth(true);
+  //           localStorage.setItem(
+  //             'whoiam',
+  //             JSON.stringify({ isAuthentcation: true }),
+  //           );
 
-  const { isLoading, error, data, refetch } = useQuery({
-    queryKey: 'userInfo',
-    queryFn: () =>
-      axios
-        .get('https://todo-api-dcld.onrender.com/api/user/get-data', {
-          withCredentials: true,
-        })
-        .then(res => {
-          if (res.status === 200) {
-            setIsAuth(true);
-            localStorage.setItem(
-              'whoiam',
-              JSON.stringify({ isAuthentcation: true }),
-            );
-
-            return res.data.body.tasks;
-          }
-        })
-        .catch(err => {
-          setIsAuth(false);
-          localStorage.setItem(
-            'whoiam',
-            JSON.stringify({ isAuthentcation: false }),
-          );
-          navigate('/signin');
-        }),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    enabled: false,
-  });
+  //           return res.data.body.tasks;
+  //         }
+  //       })
+  //       .catch(err => {
+  //         setIsAuth(false);
+  //         localStorage.setItem(
+  //           'whoiam',
+  //           JSON.stringify({ isAuthentcation: false }),
+  //         );
+  //         navigate('/signin');
+  //       }),
+  //   refetchOnMount: false,
+  //   refetchOnWindowFocus: false,
+  //   enabled: false,
+  // });
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    dispatch(getTasks());
+  }, [dispatch]);
 
   let content;
   isLoading && (content = <Loading />);
 
-  error && (content = <AlertError />);
+  // error && (content = <AlertError />);
 
-  data &&
-    (data.length
-      ? (content = <Tasks tasks={data} />)
+  !isLoading &&
+    (tasks.length
+      ? (content = <Tasks tasks={tasks} />)
       : (content = (
           <div className=" mt-6 text-center ">
             <p className="mx-auto w-fit text-4xl text-red-500">
@@ -65,11 +60,10 @@ const Profile = () => {
             </p>
           </div>
         )));
-
   return (
     <>
       <div>
-        <AddTask reFetchTasks={refetch} />
+        <AddTask />
       </div>
       {content}
     </>

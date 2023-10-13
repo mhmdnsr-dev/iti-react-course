@@ -81,7 +81,7 @@ const Register = () => {
 
   useEffect(() => {
     const whoiam = JSON.parse(localStorage.getItem('whoiam'));
-    if (whoiam?.isAuthentcation) navigate('/');
+    if (whoiam?.isAuthentcated) navigate('/');
   }, [navigate]);
 
   return (
