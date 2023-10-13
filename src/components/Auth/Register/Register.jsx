@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { object, ref, string } from 'yup';
 import axios from 'axios';
-import { Alert, loading } from '../Login/Login.jsx';
+import Alert from '../../utils/Alert.jsx';
+import Loading from '../../utils/Loading.jsx';
 
 const Register = () => {
   const navigate = useNavigate();
   const [isLoding, setIsLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
-  const [showRrPass, setReShowPass] = useState(false);
+  const [showRePass, setShowRePass] = useState(false);
   const validationSchema = object({
     name: string()
       .max(15, 'Maximum 15 characters')
@@ -46,10 +47,13 @@ const Register = () => {
     },
     validationSchema,
     onSubmit({ name, email, password }) {
-      const data = { name, email, password };
       setIsLoading(true);
       axios
-        .post('https://trello-app-v2.onrender.com/api/user/register', data, {})
+        .post('https://todo-api-dcld.onrender.com/api/user/register', {
+          name,
+          email,
+          password,
+        })
         .then(res => {
           if (res.status === 201) navigate('/signin');
         })
@@ -76,14 +80,14 @@ const Register = () => {
   }
 
   useEffect(() => {
-    const whoiam = JSON.parse(sessionStorage.getItem('whoiam'));
+    const whoiam = JSON.parse(localStorage.getItem('whoiam'));
     if (whoiam?.isAuthentcation) navigate('/');
-  }, []);
+  }, [navigate]);
 
   return (
     <div className=" flex min-h-full flex-1 flex-col justify-center px-6 pb-28 pt-6 lg:px-8">
       {isLoding ? (
-        loading
+        <Loading />
       ) : (
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={formik.handleSubmit}>
@@ -120,9 +124,9 @@ const Register = () => {
                   </svg>
                 </div>
               </div>
-              {formik.touched.name &&
-                formik.errors.name &&
-                Alert(formik.errors.name)}
+              {formik.touched.name && formik.errors.name && (
+                <Alert msg={formik.errors.name} />
+              )}
             </div>
             <div>
               <label
@@ -153,9 +157,9 @@ const Register = () => {
                   </svg>
                 </div>
               </div>
-              {formik.touched.email &&
-                formik.errors.email &&
-                Alert(formik.errors.email)}
+              {formik.touched.email && formik.errors.email && (
+                <Alert msg={formik.errors.email} />
+              )}
             </div>
             <div className="space-y-2 text-gray-700">
               <label
@@ -238,9 +242,9 @@ const Register = () => {
                   </button>
                 </div>
               </div>
-              {formik.touched.password &&
-                formik.errors.password &&
-                Alert(formik.errors.password)}
+              {formik.touched.password && formik.errors.password && (
+                <Alert msg={formik.errors.password} />
+              )}
             </div>
             <div className="space-y-2 text-gray-700">
               <label
@@ -277,13 +281,13 @@ const Register = () => {
                   required
                   autoComplete="new-password"
                   placeholder="confirm password"
-                  type={showRrPass ? 'text' : 'password'}
+                  type={showRePass ? 'text' : 'password'}
                 />
                 <div className="absolute inset-y-1 right-0 z-30 flex items-center px-4 ">
                   <button
                     type="button"
                     className="z-30"
-                    onClick={() => setReShowPass(!showRrPass)}>
+                    onClick={() => setShowRePass(!showRePass)}>
                     <svg
                       aria-hidden="true"
                       className="h-5 w-5"
@@ -323,9 +327,9 @@ const Register = () => {
                   </button>
                 </div>
               </div>
-              {formik.touched.rePassword &&
-                formik.errors.rePassword &&
-                Alert(formik.errors.rePassword)}
+              {formik.touched.rePassword && formik.errors.rePassword && (
+                <Alert msg={formik.errors.rePassword} />
+              )}
             </div>
             <div>
               <button
@@ -333,7 +337,7 @@ const Register = () => {
                 className="mb-2 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Create account
               </button>
-              {formik.errors.errMsg && Alert(formik.errors.errMsg)}
+              {formik.errors.errMsg && <Alert msg={formik.errors.errMsg} />}
             </div>
           </form>
 

@@ -1,5 +1,11 @@
-const GuardHOC = (WrappedCommponent) => {
-  return (props) => <WrappedCommponent {...props} />;
+import { Navigate } from 'react-router-dom';
+
+const withGuard = WrappedCommponent => {
+  return props => {
+    const whoiam = JSON.parse(localStorage.getItem('whoiam'));
+    if (!whoiam?.isAuthentcation) return <Navigate to={'/signin'} />;
+    return <WrappedCommponent {...props} />;
+  };
 };
 
-export default GuardHOC;
+export default withGuard;

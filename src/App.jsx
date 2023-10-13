@@ -1,13 +1,14 @@
-import React, { createContext, useState } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import React, { createContext, useState } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 // COMPONENT
-import Layout from "./components/Layout/Layout.jsx";
-import Profile from "./components/Profile/Profile.jsx";
-import NotFound from "./components/NotFound/NotFound.jsx";
-import Login from "./components/Auth/Login/Login.jsx";
-import Register from "./components/Auth/Register/Register.jsx";
+import Layout from './components/Layout/Layout.jsx';
+import Profile from './components/Profile/Profile.jsx';
+import NotFound from './components/NotFound/NotFound.jsx';
+import Login from './components/Auth/Login/Login.jsx';
+import Register from './components/Auth/Register/Register.jsx';
+import withGuard from './components/GuardHOC/GuardHOC.jsx';
 
 const queryClient = new QueryClient();
 export const isAuthContext = createContext({
@@ -15,25 +16,27 @@ export const isAuthContext = createContext({
   setIsAuth() {},
 });
 
+const ProfileGuard = withGuard(Profile);
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Profile />,
+        element: <ProfileGuard />,
       },
       {
-        path: "signin",
+        path: 'signin',
         element: <Login />,
       },
       {
-        path: "register",
+        path: 'register',
         element: <Register />,
       },
       {
-        path: "*",
+        path: '*',
         element: <NotFound />,
       },
     ],

@@ -27,13 +27,13 @@ const NavBar = () => {
   const { isAuth, setIsAuth } = useContext(isAuthContext);
   const logoutHandel = () => {
     axios
-      .delete('https://trello-app-v2.onrender.com/api/user/logout', {
+      .delete('https://todo-api-dcld.onrender.com/api/user/logout', {
         withCredentials: true,
       })
       .then(res => {
         if (res.status === 202) {
           setIsAuth(false);
-          sessionStorage.setItem(
+          localStorage.setItem(
             'whoiam',
             JSON.stringify({ isAuthentcation: false }),
           );
